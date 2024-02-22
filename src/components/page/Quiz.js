@@ -1,4 +1,5 @@
 import Answers from "../Answer";
+import MiniPlayer from "../MiniPlayer";
 import ProgressBar from "../ProgressBar";
 
 function Quiz() {
@@ -9,6 +10,7 @@ function Quiz() {
 
       <Answers></Answers>
       <ProgressBar></ProgressBar>
+      <MiniPlayer></MiniPlayer>
     </>
   );
 }
