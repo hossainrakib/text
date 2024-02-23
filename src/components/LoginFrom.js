@@ -2,21 +2,17 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { UseAuthor } from "../contexts/AuthorContext";
 import Button from "./Button";
-import Checkbox from "./Checkbox";
 import Form from "./Form";
 import Info from "./Info";
 import TextInput from "./TextInput";
 
-function SignupFrom() {
-  const [userName, setUserName] = useState("");
+function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [comfirmPassword, setcomfirmPassword] = useState("");
-  const [agree, setAgree] = useState("");
   const [erro, setErro] = useState("");
   const [loading, setLoading] = useState("");
 
-  const { signin } = UseAuthor();
+  const { login } = UseAuthor();
   const navigate = useNavigate();
 
   // Function to validate email format
@@ -28,11 +24,6 @@ function SignupFrom() {
   async function handleSubmit(e) {
     e.preventDefault();
 
-    //validition password
-    if (password !== comfirmPassword) {
-      return setErro("password do not match");
-    }
-
     // Validation: Check if email is in valid format
     if (!isEmailValid(email)) {
       return setErro("Invalid email format");
@@ -41,7 +32,7 @@ function SignupFrom() {
     try {
       setErro("");
       setLoading(true);
-      await signin(email, password, userName);
+      await login(email, password);
       navigate("/");
     } catch (error) {
       console.log(error);
@@ -51,53 +42,33 @@ function SignupFrom() {
   }
 
   return (
-    <Form style={{ height: "500px" }} onSubmit={handleSubmit}>
+    <Form style={{ height: "350px" }} onSubmit={handleSubmit}>
       <TextInput
         type="text"
-        placeholder="Enter name"
-        icon="person"
-        value={userName}
-        onChange={(e) => setUserName(e.target.value)}
-      />
-      <TextInput
-        type="text"
-        placeholder="Enter Email"
+        placeholder="Enter email"
         icon="alternate_email"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
-      />
+      ></TextInput>
       <TextInput
         type="password"
-        placeholder="Enter Password"
+        placeholder="Enter password"
         icon="lock"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
-      />
-      <TextInput
-        type="password"
-        placeholder="Comfirm password"
-        icon="lock_clock"
-        value={comfirmPassword}
-        onChange={(e) => setcomfirmPassword(e.target.value)}
-      />
-      <Checkbox
-        required
-        type="checkbox"
-        text="I agree to the Terms &amp; Conditions"
-        value={agree}
-        onChange={(e) => setAgree(e.target.value)}
-      />
+      ></TextInput>
+
       <Button disabled={loading} type="submit">
-        <span>Submit Now</span>
+        <span>Submit now</span>
       </Button>
 
       {erro && <p className="error">{erro}</p>}
 
-      <Info text="Already have an account?" link="/login">
-        Login
+      <Info text="Don't have an account?" link="singup.html">
+        SignUp
       </Info>
     </Form>
   );
 }
 
-export default SignupFrom;
+export default LoginForm;
